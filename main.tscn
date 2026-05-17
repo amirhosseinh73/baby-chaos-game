@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://b35j3ief3gm7s"]
+
+[ext_resource type="Script" uid="uid://ct805x02x6d10" path="res://main.gd" id="1_0xm2m"]
+
+[node name="Main" type="Control" unique_id=164114752]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0xm2m")
+
+[node name="Background" type="ColorRect" parent="." unique_id=781406798]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.48235294, 0.38039216, 1, 1)
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=1122313155]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 91.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+
+[node name="ChaosBar" type="ProgressBar" parent="." unique_id=1648427303]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 70.0
+offset_right = 380.0
+offset_bottom = 100.0
+
+[node name="GameOverLabel" type="Label" parent="." unique_id=1629268258]
+visible = false
+layout_mode = 0
+offset_left = 220.0
+offset_top = 220.0
+offset_right = 307.0
+offset_bottom = 243.0
+theme_override_colors/font_color = Color(1, 0.3019608, 0.3019608, 1)
+theme_override_font_sizes/font_size = 48
+text = "Game Over"
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1404578478]
+wait_time = 1.2
+autostart = true
+
+[node name="RestartButton" type="Button" parent="." unique_id=1380551006]
+visible = false
+layout_mode = 0
+offset_left = 250.0
+offset_top = 320.0
+offset_right = 390.0
+offset_bottom = 375.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "Restart"
+
+[node name="MenuPanel" type="Panel" parent="." unique_id=1780927501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="MenuPanel" unique_id=226230734]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 180.0
+offset_right = 864.0
+offset_bottom = 260.0
+theme_override_font_sizes/font_size = 56
+text = "BabyChaos"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuPanel" unique_id=161370881]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 300.0
+offset_right = 864.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 28
+text = "New Game"
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="MenuPanel/PlayButton" to="." method="_on_play_button_pressed"]
