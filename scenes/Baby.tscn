@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dyyije0w2bi0g"]
+
+[ext_resource type="Script" uid="uid://cy12i1v4u3iqr" path="res://scripts/baby.gd" id="1_viyfo"]
+[ext_resource type="Texture2D" uid="uid://cfg2byex58hdx" path="res://assets/baby/baby_body.png" id="2_kf2tt"]
+[ext_resource type="Texture2D" uid="uid://6pma8674c65w" path="res://assets/baby/baby_head.png" id="3_6b1pt"]
+[ext_resource type="Texture2D" uid="uid://b36teee0aaqaj" path="res://assets/baby/baby_back_arm.png" id="4_n8fbf"]
+[ext_resource type="Texture2D" uid="uid://jv0v7vq0ywv" path="res://assets/baby/baby_front_arm.png" id="5_4clxn"]
+[ext_resource type="Texture2D" uid="uid://omjhxq1ix18q" path="res://assets/baby/baby_back_leg.png" id="6_dog4e"]
+[ext_resource type="Texture2D" uid="uid://6knkdyatb6o5" path="res://assets/baby/baby_front_leg.png" id="7_48xam"]
+[ext_resource type="Texture2D" uid="uid://pxjvdr57x1s3" path="res://assets/baby/baby_diaper.png" id="8_c68k1"]
+
+[node name="Baby" type="Node2D" unique_id=1437984506]
+script = ExtResource("1_viyfo")
+
+[node name="BackLegPivot" type="Node2D" parent="." unique_id=76423504]
+position = Vector2(19.999998, 37)
+scale = Vector2(0.22, 0.22)
+
+[node name="BackLeg" type="Sprite2D" parent="BackLegPivot" unique_id=1823302217]
+position = Vector2(113.63635, 72.72711)
+texture = ExtResource("6_dog4e")
+
+[node name="BackArmPivot" type="Node2D" parent="." unique_id=7856369]
+position = Vector2(17.999998, -33)
+scale = Vector2(0.22, 0.22)
+
+[node name="BackArm" type="Sprite2D" parent="BackArmPivot" unique_id=57060508]
+position = Vector2(149.99994, 27.27272)
+texture = ExtResource("4_n8fbf")
+
+[node name="FrontArmPivot" type="Node2D" parent="." unique_id=371177465]
+position = Vector2(-24, -35)
+scale = Vector2(0.22, 0.22)
+
+[node name="FrontArm" type="Sprite2D" parent="FrontArmPivot" unique_id=1934102120]
+position = Vector2(-122.727234, 77.27298)
+texture = ExtResource("5_4clxn")
+
+[node name="BodyPivot" type="Node2D" parent="." unique_id=2143055142]
+position = Vector2(0, 1.9073486e-06)
+scale = Vector2(0.22, 0.22)
+
+[node name="Body" type="Sprite2D" parent="BodyPivot" unique_id=1538801987]
+position = Vector2(0, -1.5258789e-05)
+texture = ExtResource("2_kf2tt")
+
+[node name="HeadPivot" type="Node2D" parent="." unique_id=737453226]
+position = Vector2(-1, -59)
+scale = Vector2(0.22, 0.22)
+
+[node name="Head" type="Sprite2D" parent="HeadPivot" unique_id=1846037736]
+position = Vector2(9.090904, -300.00024)
+texture = ExtResource("3_6b1pt")
+
+[node name="FrontLegPivot" type="Node2D" parent="." unique_id=80032844]
+position = Vector2(-14.999999, 35)
+scale = Vector2(0.22, 0.22)
+
+[node name="FrontLeg" type="Sprite2D" parent="FrontLegPivot" unique_id=1317315504]
+position = Vector2(-86.36365, 100)
+texture = ExtResource("7_48xam")
+
+[node name="DiaperPivot" type="Node2D" parent="." unique_id=986201599]
+position = Vector2(-7, 20.999998)
+scale = Vector2(0.22, 0.22)
+
+[node name="Diaper" type="Sprite2D" parent="DiaperPivot" unique_id=267872982]
+position = Vector2(9.090908, 4.545456)
+texture = ExtResource("8_c68k1")
+
+[node name="ActionTimer" type="Timer" parent="." unique_id=336466387]
+
+[connection signal="timeout" from="ActionTimer" to="." method="_on_action_timer_timeout"]
