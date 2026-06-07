@@ -229,7 +229,7 @@ func complete_level():
 	level_completed = true
 	level_progress_bar.value = 100
 	spawn_timer.stop()
-	baby.stop_baby()
+	#baby.stop_baby()
 
 	for toy in get_tree().get_nodes_in_group("toys"):
 		toy.disable_click()
@@ -517,6 +517,10 @@ func _on_room_object_cleaned(object_id):
 	update_score_label()
 	update_cleaned_label()
 	update_level_progress_bar()
+	
+	if cleaned_mess_count >= current_level["required_clean_count"]:
+		complete_level()
+		return
 
 	request_next_mess()
 

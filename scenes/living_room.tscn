@@ -188,7 +188,6 @@ metadata/_edit_lock_ = true
 
 [node name="RoomBabyPreview" type="Node2D" parent="." unique_id=1129106954]
 visible = false
-metadata/_edit_lock_ = true
 
 [node name="BabyDuck" type="Sprite2D" parent="RoomBabyPreview" unique_id=140091225]
 position = Vector2(288, 416)
@@ -205,22 +204,22 @@ flip_h = true
 metadata/_edit_lock_ = true
 
 [node name="BabyGuitar" type="Sprite2D" parent="RoomBabyPreview" unique_id=274197860]
-position = Vector2(336, 440)
+position = Vector2(496, 447.99997)
 scale = Vector2(0.061333332, 0.061333332)
 texture = ExtResource("18_7smae")
+flip_h = true
 metadata/_edit_lock_ = true
 
 [node name="BabyFlowerPot" type="Sprite2D" parent="RoomBabyPreview" unique_id=652768381]
-position = Vector2(432, 408)
+position = Vector2(432, 421.99997)
 scale = Vector2(0.061333332, 0.061333332)
 texture = ExtResource("18_7smae")
 metadata/_edit_lock_ = true
 
 [node name="BabyTeddy" type="Sprite2D" parent="RoomBabyPreview" unique_id=1627324890]
-position = Vector2(880, 424)
+position = Vector2(784, 504)
 scale = Vector2(0.061333332, 0.061333332)
 texture = ExtResource("18_7smae")
-flip_h = true
 metadata/_edit_lock_ = true
 
 [node name="BabyBucket" type="Sprite2D" parent="RoomBabyPreview" unique_id=421518777]
@@ -230,7 +229,7 @@ texture = ExtResource("18_7smae")
 metadata/_edit_lock_ = true
 
 [node name="BabyCrown" type="Sprite2D" parent="RoomBabyPreview" unique_id=1743775872]
-position = Vector2(752, 416)
+position = Vector2(752, 429.99997)
 scale = Vector2(0.061333332, 0.061333332)
 texture = ExtResource("18_7smae")
 flip_h = true

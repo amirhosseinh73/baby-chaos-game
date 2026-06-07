@@ -5,7 +5,8 @@ signal mess_created(position, object_name, object_id)
 enum BabyState {
 	IDLE,
 	WALK,
-	MESS
+	MESS,
+	DANCE
 }
 
 
@@ -68,9 +69,12 @@ func _process(delta):
 	match current_state:
 		BabyState.WALK:
 			process_walk(delta)
-
+ 
 		BabyState.IDLE:
 			process_idle(delta)
+
+		BabyState.DANCE:
+			process_dance(delta)
 
 func perform_mess_at(target_position, object_name, mess_position, object_id):
 	if not is_active:
@@ -155,3 +159,28 @@ func reset_pose():
 
 func _on_action_timer_timeout():
 	pass
+
+func start_dancing():
+	reset_pose()
+
+	current_state = BabyState.DANCE
+
+func process_dance(delta):
+
+	walk_time += delta * 3.5
+
+	var leg_rotation = sin(walk_time) * 8.0
+	var arm_rotation = cos(walk_time) * 12.0
+
+	front_leg_pivot.rotation_degrees = leg_rotation
+	back_leg_pivot.rotation_degrees = -leg_rotation
+
+	front_arm_pivot.rotation_degrees = arm_rotation
+	back_arm_pivot.rotation_degrees = -arm_rotation
+
+	head_pivot.position.x = sin(walk_time * 2.0) * 10.0
+	head_pivot.position.y = -52
+	
+	body_pivot.position.x = sin(walk_time) * 2.0
+
+	head_pivot.rotation_degrees = 0
