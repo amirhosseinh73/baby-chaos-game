@@ -21,10 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.5568628, 0.4862745, 1, 1)
 
-[node name="RoomLayer" type="Control" parent="." unique_id=1713010655]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="RoomLayer" type="Node2D" parent="." unique_id=222706416]
 
 [node name="Baby" parent="." unique_id=1437984506 instance=ExtResource("2_0wfyh")]
 

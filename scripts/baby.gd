@@ -1,12 +1,13 @@
 extends Node2D
 
-signal mess_created(position, object_name)
+signal mess_created(position, object_name, object_id)
 
 enum BabyState {
 	IDLE,
 	WALK,
 	MESS
 }
+
 
 const HEAD_IDLE_BOUNCE = 1.2
 const HEAD_WALK_BOUNCE = 1.5
@@ -15,6 +16,7 @@ const ARM_WALK_ANGLE = 7.0
 const MESS_ARM_ANGLE = -14.0
 const MESS_HEAD_FORWARD = 10.0
 const MESS_HEAD_DOWN = 7.0
+const BABY_SCALE = 0.65
 
 var current_state = BabyState.IDLE
 var is_active = false
@@ -24,6 +26,8 @@ var move_speed = 170.0
 var walk_time = 0.0
 
 var pending_object_name = ""
+var pending_mess_position = Vector2.ZERO
+var pending_object_id = ""
 
 @onready var body_pivot = $BodyPivot
 @onready var head_pivot = $HeadPivot
@@ -42,6 +46,10 @@ func _ready():
 func start_baby():
 	is_active = true
 	visible = true
+	scale = Vector2(BABY_SCALE, BABY_SCALE)
+
+	position = Vector2(700, 600)
+
 	reset_pose()
 	go_idle()
 
@@ -54,6 +62,8 @@ func stop_baby():
 func _process(delta):
 	if not is_active:
 		return
+		
+	z_index = int(global_position.y)
 
 	match current_state:
 		BabyState.WALK:
@@ -62,11 +72,14 @@ func _process(delta):
 		BabyState.IDLE:
 			process_idle(delta)
 
-func perform_mess_at(target_position, object_name):
+func perform_mess_at(target_position, object_name, mess_position, object_id):
 	if not is_active:
 		return
 
 	pending_object_name = object_name
+	pending_mess_position = mess_position
+	pending_object_id = object_id
+
 	move_target = target_position
 	go_walk()
 
@@ -82,9 +95,11 @@ func go_walk():
 	current_state = BabyState.WALK
 
 	if move_target.x < position.x:
-		scale.x = -1
+		scale.x = -BABY_SCALE
 	else:
-		scale.x = 1
+		scale.x = BABY_SCALE
+
+	scale.y = BABY_SCALE
 
 func process_walk(delta):
 	walk_time += delta * 6.5
@@ -124,7 +139,7 @@ func make_mess():
 	if not is_active:
 		return
 
-	mess_created.emit(position, pending_object_name)
+	mess_created.emit(pending_mess_position, pending_object_name, pending_object_id)
 
 	go_idle()
 

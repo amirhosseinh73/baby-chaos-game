@@ -5,10 +5,12 @@ const ObjectDatabase = preload("res://scripts/object_database.gd")
 const LevelDatabase = preload("res://scripts/level_database.gd")
 const RoomBuilder = preload("res://scripts/room_builder.gd")
 var toy_scene = preload("res://scenes/toy.tscn")
+var room_object_scene = preload("res://scenes/room_object.tscn")
+var living_room_scene = preload("res://scenes/living_room.tscn")
 
 const DEFAULT_CHAOS_SPEED = 1.2
 const DEFAULT_SPAWN_SPEED = 0.9
-const TOY_SIZE = Vector2(96, 96)
+const TOY_SIZE = Vector2(64, 64)
 const MIN_ACTIVE_ITEMS = 2
 const START_ITEMS = 0
 
@@ -22,9 +24,13 @@ var level_time_left = 0.0
 var level_completed = false
 var object_types = []
 var cleaned_mess_count = 0
-var mess_sequence = []
+var mess_order = []
 var next_mess_index = 0
 var is_baby_busy = false
+var room_objects = {}
+var room_scene_instance = null
+var total_messes_created := 0
+var last_messed_object := ""
 
 @onready var score_label = $ScoreLabel
 @onready var chaos_bar = $ChaosBar
@@ -47,7 +53,6 @@ func _ready():
 	object_types = ObjectDatabase.get_object_types()
 	setup_restart_button_style()
 	center_game_over_ui()
-	RoomBuilder.build_child_room(room_layer)
 	baby.mess_created.connect(_on_baby_mess_created)
 	show_main_menu()
 
@@ -62,11 +67,18 @@ func start_new_game():
 	restart_button.visible = false
 	menu_panel.visible = false
 	
+	total_messes_created = 0
+	last_messed_object = ""
+	
 	current_level = LevelDatabase.get_level_1()
+	mess_order = current_level["mess_order"]
+
+	build_room_scene()
+	build_level_room_objects()
+
 	level_time_left = current_level["time_limit"]
 	level_completed = false
-	
-	mess_sequence = current_level["mess_sequence"]
+
 	next_mess_index = 0
 	is_baby_busy = false
 	cleaned_mess_count = 0
@@ -86,7 +98,6 @@ func start_new_game():
 	update_score_label()
 	update_chaos_bar()
 
-	spawn_timer.wait_time = spawn_speed
 	spawn_timer.stop()
 	
 	baby.start_baby()
@@ -112,51 +123,6 @@ func _process(delta):
 	if chaos >= 100:
 		end_game()
 
-func spawn_toy():
-	if game_over:
-		return
-		
-	if level_completed:
-		return
-
-	if get_tree().get_nodes_in_group("toys").size() >= current_level["max_items"]:
-		return
-
-	var object_data = get_random_object_data()
-
-	var toy = toy_scene.instantiate()
-	toy.setup(object_data)
-	toy.position = get_random_toy_position()
-
-	add_child(toy)
-
-	toy.collected.connect(_on_toy_collected)
-	toy.danger_triggered.connect(_on_toy_danger_triggered)
-
-func _on_toy_collected(toy, score_value, chaos_reduce):
-	if game_over or level_completed:
-		return
-
-	score += score_value
-	cleaned_mess_count += 1
-
-	chaos -= chaos_reduce
-
-	if chaos < 0:
-		chaos = 0
-
-	update_score_label()
-	update_chaos_bar()
-	update_cleaned_label()
-	update_level_progress_bar()
-	update_difficulty()
-
-	if cleaned_mess_count >= current_level["required_clean_count"]:
-		complete_level()
-		return
-
-	request_next_mess()
-
 func update_score_label():
 	score_label.text = "Score: " + str(score)
 
@@ -178,28 +144,6 @@ func end_game():
 
 	game_over_label.move_to_front()
 	restart_button.move_to_front()
-
-func _on_spawn_timer_timeout():
-	#spawn_toy()
-	pass
-	
-
-func get_random_toy_position():
-	var screen_size = get_viewport_rect().size
-
-	for i in range(20):
-		var floor_start_y = screen_size.y * 0.42
-		var x = randf_range(50, screen_size.x - TOY_SIZE.x - 50)
-		var y = randf_range(floor_start_y + 40, screen_size.y - TOY_SIZE.y - 50)
-		var position = Vector2(x, y)
-
-		if not is_position_overlapping(position):
-			return position
-
-	var floor_start_y = screen_size.y * 0.42
-	var x = randf_range(50, screen_size.x - TOY_SIZE.x - 50)
-	var y = randf_range(floor_start_y + 40, screen_size.y - TOY_SIZE.y - 50)
-	return Vector2(x, y)
 
 func is_position_overlapping(new_position):
 	var padding = 25
@@ -276,32 +220,6 @@ func _on_play_button_pressed() -> void:
 	menu_panel.visible = false
 	start_new_game()
 
-func _on_toy_danger_triggered(toy, chaos_penalty):
-	if game_over:
-		return
-
-	chaos += chaos_penalty
-
-	if chaos > 100:
-		chaos = 100
-
-	update_chaos_bar()
-
-	if chaos >= 100:
-		end_game()
-		
-func get_random_object_data():
-	var available_objects = []
-
-	for object_data in object_types:
-		var is_unlocked = score >= object_data["unlock_score"]
-		var is_allowed_in_level = current_level["allowed_objects"].has(object_data["name"])
-
-		if is_unlocked and is_allowed_in_level:
-			available_objects.append(object_data)
-
-	return available_objects.pick_random()
-
 func update_level_label():
 	level_label.text = "Level " + str(current_level["id"]) + ": " + current_level["name"]
 
@@ -342,101 +260,84 @@ func update_level_progress_bar():
 
 	level_progress_bar.value = progress_percent
 
-func ensure_minimum_items():
-	if game_over or level_completed:
-		return
-
-	var active_items = get_tree().get_nodes_in_group("toys").size()
-
-	if active_items < MIN_ACTIVE_ITEMS:
-		var missing_items = MIN_ACTIVE_ITEMS - active_items
-
-		for i in range(missing_items):
-			spawn_toy()
-
-func _on_baby_mess_created(baby_position, object_name):
+func _on_baby_mess_created(mess_position, object_name, object_id):
 	if game_over or level_completed:
 		return
 
 	is_baby_busy = false
 
-	spawn_specific_object_near_position(object_name, baby_position)
+	await throw_room_object_to_mess(object_id, mess_position)
 
 	await get_tree().create_timer(get_next_mess_delay()).timeout
 
 	request_next_mess()
 	
-func spawn_toy_near_position(spawn_position):
-
-	if get_tree().get_nodes_in_group("toys").size() >= current_level["max_items"]:
-		return
-
-	var object_data = get_random_object_data()
-
-	var toy = toy_scene.instantiate()
-
-	toy.setup(object_data)
-
-	var random_offset = Vector2(
-		randf_range(-90, 90),
-		randf_range(-50, 50)
-	)
-
-	toy.position = spawn_position + random_offset
-
-	add_child(toy)
-
-	toy.collected.connect(_on_toy_collected)
-	toy.danger_triggered.connect(_on_toy_danger_triggered)
-
 func update_cleaned_label():
 	cleaned_label.text = "Cleaned: " + str(cleaned_mess_count) + "/" + str(current_level["required_clean_count"])
 
 func request_next_mess():
+
 	if game_over or level_completed:
 		return
 
 	if is_baby_busy:
 		return
 
-	if current_level.is_empty():
-		return
-
-	if next_mess_index >= mess_sequence.size():
+	if total_messes_created >= current_level["required_clean_count"]:
+		baby.start_dancing()
 		return
 
 	if get_active_mess_count() >= current_level["max_active_messes"]:
 		return
 
-	var mess_data = mess_sequence[next_mess_index]
-	next_mess_index += 1
+	var object_name := ""
 
-	var target_position = get_screen_position_from_percent(mess_data["position"])
-	var object_name = mess_data["object"]
+	if total_messes_created < current_level["mess_order"].size():
 
-	is_baby_busy = true
-	baby.perform_mess_at(target_position, object_name)
+		object_name = current_level["mess_order"][total_messes_created]
 
-func spawn_specific_object_near_position(object_name, spawn_position):
-	if get_active_mess_count() >= current_level["max_items"]:
+	else:
+
+		var candidates = []
+
+		for name in current_level["mess_order"]:
+
+			if name == last_messed_object:
+				continue
+
+			if is_object_currently_messed(name):
+				continue
+
+			candidates.append(name)
+
+		if candidates.is_empty():
+			return
+
+		object_name = candidates.pick_random()
+
+	last_messed_object = object_name
+
+	var mess_data = null
+
+	for item in current_level["mess_objects"]:
+
+		if item["object"] == object_name:
+			mess_data = item
+			break
+
+	if mess_data == null:
 		return
 
-	var object_data = get_object_data_by_name(object_name)
+	is_baby_busy = true
 
-	var toy = toy_scene.instantiate()
-	toy.setup(object_data)
-
-	var random_offset = Vector2(
-		randf_range(-35, 35),
-		randf_range(-20, 20)
+	baby.perform_mess_at(
+		mess_data["baby_position"],
+		object_name,
+		mess_data["mess_position"],
+		mess_data["id"]
 	)
 
-	toy.position = spawn_position + random_offset
-
-	add_child(toy)
-
-	toy.collected.connect(_on_toy_collected)
-	toy.danger_triggered.connect(_on_toy_danger_triggered)
+	total_messes_created += 1
 
 func get_object_data_by_name(object_name):
 	for object_data in object_types:
@@ -445,19 +346,11 @@ func get_object_data_by_name(object_name):
 
 	return object_types[0]
 
-func get_screen_position_from_percent(percent_position):
-	var screen_size = get_viewport_rect().size
-
-	return Vector2(
-		screen_size.x * percent_position.x,
-		screen_size.y * percent_position.y
-	)
-
 func get_active_mess_count():
 	var count = 0
 
-	for toy in get_tree().get_nodes_in_group("toys"):
-		if not toy.is_collected:
+	for obj in room_objects.values():
+		if obj.is_mess:
 			count += 1
 
 	return count
@@ -475,3 +368,152 @@ func get_next_mess_delay():
 		return 0.9
 
 	return 1.4
+
+func build_level_room_objects():
+
+	room_objects.clear()
+
+	for mess_data in current_level["mess_objects"]:
+
+		var object_id = mess_data["id"]
+
+		var object_data = get_object_data_by_name(
+			mess_data["object"]
+		)
+
+		var room_object = room_object_scene.instantiate()
+
+		room_object.position = mess_data["source_position"]
+
+		room_object.rotation_degrees = object_data["source_transform"]["rotation"]
+		room_object.scale = object_data["source_transform"]["scale"]
+
+		room_object.original_position = mess_data["source_position"]
+		room_object.original_rotation = object_data["source_transform"]["rotation"]
+		room_object.original_scale = object_data["source_transform"]["scale"]
+
+		room_scene_instance.add_child(room_object)
+		
+		room_object.setup(
+			mess_data,
+			object_data["texture"]
+		)
+		
+		room_object.cleaned.connect(
+			_on_room_object_cleaned
+		)
+
+		room_objects[object_id] = room_object
+
+func throw_room_object_to_mess(object_id, mess_position):
+	if not room_objects.has(object_id):
+		return
+
+	var room_object = room_objects[object_id]
+	var object_data = get_object_data_by_name(room_object.object_name)
+
+	var tween = create_tween()
+
+	tween.parallel().tween_property(
+		room_object,
+		"position",
+		mess_position,
+		0.25
+	)
+
+	tween.parallel().tween_property(
+		room_object,
+		"rotation_degrees",
+		object_data["mess_transform"]["rotation"],
+		0.25
+	)
+
+	tween.parallel().tween_property(
+		room_object,
+		"scale",
+		object_data["mess_transform"]["scale"],
+		0.25
+	)
+
+	await tween.finished
+
+	room_object.is_mess = true
+
+func build_room_scene():
+	for child in room_layer.get_children():
+		child.queue_free()
+
+	room_scene_instance = living_room_scene.instantiate()
+
+	room_layer.add_child(room_scene_instance)
+	
+	print("room pos:", room_scene_instance.position)
+	print("room global:", room_scene_instance.global_position)
+
+func _on_room_object_cleaned(object_id):
+
+	if not room_objects.has(object_id):
+		return
+
+	var obj = room_objects[object_id]
+
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(obj, "position", obj.original_position, 0.35)
+	tween.tween_property(obj, "rotation_degrees", obj.original_rotation, 0.35)
+	tween.tween_property(obj, "scale", obj.original_scale, 0.35)
+	await tween.finished
+
+	obj.is_mess = false
+
+	score += 1
+	cleaned_mess_count += 1
+	#build_room_scene()
+	obj.position = obj.original_position
+	obj.rotation_degrees = obj.original_rotation
+	obj.scale = obj.original_scale
+
+	update_score_label()
+	update_cleaned_label()
+	update_level_progress_bar()
+
+	request_next_mess()
+
+func is_object_currently_messed(object_name:String) -> bool:
+
+	for obj in room_objects.values():
+
+		if obj.object_name == object_name and obj.is_mess:
+			return true
+
+	return false
+
+func create_mess_from_object(
+	object_name:String,
+	source_position:Vector2,
+	mess_position:Vector2,
+	baby_position:Vector2
+):
+
+	var room_object = null
+
+	for obj in room_objects.values():
+
+		if obj.object_name == object_name:
+			room_object = obj
+			break
+
+	if room_object == null:
+		request_next_mess()
+		return
+
+	if room_object.is_mess:
+		request_next_mess()
+		return
+
+	baby.move_to_object(
+		room_object,
+		baby_position,
+		source_position,
+		mess_position
+	)

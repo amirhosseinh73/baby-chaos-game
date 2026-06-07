@@ -3,8 +3,19 @@ extends Node
 static func get_object_types():
 	return [
 		{
-			"name": "Toy",
-			"texture": preload("res://assets/toy-1.png"),
+			"name": "Duck",
+			"texture": preload("res://assets/toys/toy-duck.png"),
+
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.408, 0.408)
+			},
+
+			"mess_transform": {
+				"rotation": 70,
+				"scale": Vector2(0.408, 0.408)
+			},
+
 			"score": 1,
 			"chaos_reduce": 3,
 			"danger_time": 5.0,
@@ -12,48 +23,123 @@ static func get_object_types():
 			"unlock_score": 0
 		},
 		{
-			"name": "Blocks",
-			"texture": preload("res://assets/toy-2.png"),
+			"name": "FlowerPot",
+			"texture": preload("res://assets/rooms/living-room/flower-pot-1.png"),
+			
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.192, 0.192)
+			},
+
+			"mess_transform": {
+				"rotation": 65.0,
+				"scale": Vector2(0.192, 0.192)
+			},
+			
 			"score": 1,
 			"chaos_reduce": 3,
-			"danger_time": 4.5,
-			"chaos_penalty": 5,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
 			"unlock_score": 0
 		},
 		{
-			"name": "Milk Spill",
-			"texture": preload("res://assets/toy-3.png"),
-			"score": 2,
-			"chaos_reduce": 5,
-			"danger_time": 3.5,
-			"chaos_penalty": 10,
-			"unlock_score": 5
-		},
-		{
-			"name": "Banana Peel",
-			"texture": preload("res://assets/toy-4.png"),
+			"name": "TeddyBear",
+			"texture": preload("res://assets/toys/toy-teddy-bear.png"),
+			
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.705, 0.705)
+			},
+
+			"mess_transform": {
+				"rotation": -71,
+				"scale": Vector2(0.705, 0.705)
+			},
+			
 			"score": 1,
-			"chaos_reduce": 2,
-			"danger_time": 3.0,
-			"chaos_penalty": 8,
-			"unlock_score": 8
+			"chaos_reduce": 3,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
+			"unlock_score": 0
 		},
 		{
-			"name": "Wall Drawing",
-			"texture": preload("res://assets/toy-5.png"),
-			"score": 3,
-			"chaos_reduce": 7,
-			"danger_time": 4.0,
-			"chaos_penalty": 12,
-			"unlock_score": 12
+			"name": "Scooter",
+			"texture": preload("res://assets/toys/toy-scooter.png"),
+			
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.71, 0.71)
+			},
+
+			"mess_transform": {
+				"rotation": -35.0,
+				"scale": Vector2(0.71, 0.71)
+			},
+
+			"score": 1,
+			"chaos_reduce": 3,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
+			"unlock_score": 0
 		},
 		{
-			"name": "Big Mess",
-			"texture": preload("res://assets/toy-6.png"),
-			"score": 4,
-			"chaos_reduce": 10,
-			"danger_time": 2.8,
-			"chaos_penalty": 16,
-			"unlock_score": 20
+			"name": "Guitar",
+			"texture": preload("res://assets/toys/toy-guitar.png"),
+			
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.669, 0.767)
+			},
+
+			"mess_transform": {
+				"rotation": -140.0,
+				"scale": Vector2(0.669, 0.767)
+			},
+			
+			"score": 1,
+			"chaos_reduce": 3,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
+			"unlock_score": 0
+		},
+		{
+			"name": "Bucket",
+			"texture": preload("res://assets/toys/toy-bucket.png"),
+			
+			"source_transform": {
+				"rotation": 37,
+				"scale": Vector2(1, 1)
+			},
+
+			"mess_transform": {
+				"rotation": 100,
+				"scale": Vector2(1, 1)
+			},
+			
+			"score": 1,
+			"chaos_reduce": 3,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
+			"unlock_score": 0
+		},
+		{
+			"name": "Crown",
+			"texture": preload("res://assets/toys/toy-crown.png"),
+			
+			"source_transform": {
+				"rotation": 0.0,
+				"scale": Vector2(0.25, 0.25)
+			},
+
+			"mess_transform": {
+				"rotation": -65,
+				"scale": Vector2(0.25, 0.25)
+			},
+
+			"score": 1,
+			"chaos_reduce": 3,
+			"danger_time": 5.0,
+			"chaos_penalty": 4,
+			"unlock_score": 0
 		}
 	]

@@ -3,7 +3,7 @@ extends TextureRect
 signal collected(toy, score_value, chaos_reduce)
 signal danger_triggered(toy, chaos_penalty)
 
-const TOY_SIZE = Vector2(96, 96)
+const TOY_SIZE = Vector2(64, 64)
 
 var object_data = {}
 var is_collected = false
@@ -19,7 +19,7 @@ func _ready():
 	if object_data.is_empty():
 		object_data = {
 			"name": "Toy",
-			"texture": preload("res://assets/toy-1.png"),
+			"texture": preload("res://assets/toys/toy-arrow.png"),
 			"score": 1,
 			"chaos_reduce": 3,
 			"danger_time": 5.0,
@@ -87,3 +87,12 @@ func play_danger_animation():
 func disable_click():
 	is_collected = true
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+func apply_source_transform(data):
+	rotation_degrees = data.rotation
+	scale = data.scale
+
+
+func apply_mess_transform(data):
+	rotation_degrees = data.rotation
+	scale = data.scale

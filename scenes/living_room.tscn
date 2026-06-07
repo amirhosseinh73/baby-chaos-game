@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://c510qm5rf3xnk"]
+
+[ext_resource type="Texture2D" uid="uid://ywmxpobnd6fu" path="res://assets/rooms/living-room/wall.png" id="1_buenm"]
+[ext_resource type="Texture2D" uid="uid://g6kbt30aevxe" path="res://assets/rooms/living-room/floor.png" id="2_carex"]
+[ext_resource type="Texture2D" uid="uid://bdidfv4xqn74v" path="res://assets/rooms/living-room/window-1.png" id="3_5iuts"]
+[ext_resource type="Texture2D" uid="uid://cqtrsbjaa1ccr" path="res://assets/rooms/living-room/frame-2.png" id="4_fppcp"]
+[ext_resource type="Texture2D" uid="uid://ch2tsctasq7v2" path="res://assets/rooms/living-room/rug-2.png" id="5_jwnxk"]
+[ext_resource type="Texture2D" uid="uid://c70ai3hg3rxki" path="res://assets/rooms/living-room/shelf-1.png" id="6_u0ac3"]
+[ext_resource type="Texture2D" uid="uid://dpgva3k4ct14d" path="res://assets/rooms/living-room/flower-pot-1.png" id="7_s7fgn"]
+[ext_resource type="Texture2D" uid="uid://c2jdciwx5k1d3" path="res://assets/rooms/living-room/lamp.png" id="8_ut1se"]
+[ext_resource type="Texture2D" uid="uid://b0liltg2i3x7k" path="res://assets/rooms/living-room/couch-small-1.png" id="9_ahqaa"]
+[ext_resource type="Texture2D" uid="uid://51ld4xqecgm2" path="res://assets/rooms/living-room/clock-wall-1.png" id="10_22r5p"]
+[ext_resource type="Texture2D" uid="uid://cvfhf4yr3pb2a" path="res://assets/rooms/living-room/toy-set-1.png" id="11_i2rj8"]
+[ext_resource type="Texture2D" uid="uid://bdgp523j203a8" path="res://assets/toys/toy-scooter.png" id="12_5iuts"]
+[ext_resource type="Texture2D" uid="uid://0xnsmflqx2u7" path="res://assets/toys/toy-duck.png" id="13_fppcp"]
+[ext_resource type="Texture2D" uid="uid://cxv71afgv6gvm" path="res://assets/toys/toy-guitar.png" id="14_jwnxk"]
+[ext_resource type="Texture2D" uid="uid://pthkend5keex" path="res://assets/toys/toy-teddy-bear.png" id="15_u0ac3"]
+[ext_resource type="Texture2D" uid="uid://bsag0qprom6o7" path="res://assets/toys/toy-bucket.png" id="16_karft"]
+[ext_resource type="Texture2D" uid="uid://bxr2p66yg8nmr" path="res://assets/toys/toy-crown.png" id="17_7smae"]
+
+[node name="LivingRoom" type="Control" unique_id=773062960]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RoomRoot" type="Node2D" parent="." unique_id=830205832]
+
+[node name="Wall" type="Sprite2D" parent="RoomRoot" unique_id=581646431]
+position = Vector2(576, 244.125)
+scale = Vector2(0.18274112, 0.17833637)
+texture = ExtResource("1_buenm")
+metadata/_edit_lock_ = true
+
+[node name="Floor" type="Sprite2D" parent="RoomRoot" unique_id=605118397]
+position = Vector2(577.7807, 568)
+scale = Vector2(0.18217616, 0.23491073)
+texture = ExtResource("2_carex")
+metadata/_edit_lock_ = true
+
+[node name="Window1" type="Sprite2D" parent="RoomRoot" unique_id=1756509287]
+position = Vector2(589.9601, 168.00002)
+scale = Vector2(0.24479716, 0.28213876)
+texture = ExtResource("3_5iuts")
+metadata/_edit_lock_ = true
+
+[node name="Frame2" type="Sprite2D" parent="RoomRoot" unique_id=1471915570]
+position = Vector2(90.375, 102.21561)
+scale = Vector2(0.3073066, 0.3073066)
+texture = ExtResource("4_fppcp")
+metadata/_edit_lock_ = true
+
+[node name="Rug2" type="Sprite2D" parent="RoomRoot" unique_id=112275831]
+position = Vector2(504, 573.00006)
+scale = Vector2(0.28697968, 0.2368638)
+texture = ExtResource("5_jwnxk")
+metadata/_edit_lock_ = true
+
+[node name="Shelf1" type="Sprite2D" parent="RoomRoot" unique_id=1444312801]
+position = Vector2(592, 352)
+scale = Vector2(0.305618, 0.3235955)
+texture = ExtResource("6_u0ac3")
+metadata/_edit_lock_ = true
+
+[node name="Lamp" type="Sprite2D" parent="RoomRoot" unique_id=862864383]
+position = Vector2(816, 279.99997)
+scale = Vector2(0.23992442, 0.23992442)
+texture = ExtResource("8_ut1se")
+metadata/_edit_lock_ = true
+
+[node name="CouchSmall1" type="Sprite2D" parent="RoomRoot" unique_id=1788673555]
+position = Vector2(927.99994, 464)
+scale = Vector2(0.3400901, 0.3400901)
+texture = ExtResource("9_ahqaa")
+metadata/_edit_lock_ = true
+
+[node name="ClockWall1" type="Sprite2D" parent="RoomRoot" unique_id=867998922]
+position = Vector2(1033.1875, 113.18749)
+scale = Vector2(0.34291765, 0.34291765)
+texture = ExtResource("10_22r5p")
+metadata/_edit_lock_ = true
+
+[node name="ToySet1" type="Sprite2D" parent="RoomRoot" unique_id=298011583]
+position = Vector2(144, 400)
+scale = Vector2(0.26797757, 0.26797754)
+texture = ExtResource("11_i2rj8")
+metadata/_edit_lock_ = true
+
+[node name="FlowerPot1" type="Sprite2D" parent="RoomRoot" unique_id=1945310276]
+visible = false
+position = Vector2(480, 211)
+scale = Vector2(0.19213383, 0.19213384)
+texture = ExtResource("7_s7fgn")
+metadata/_edit_lock_ = true
+
+[node name="ToyScooter" type="Sprite2D" parent="RoomRoot" unique_id=528808462]
+visible = false
+position = Vector2(134, 513)
+scale = Vector2(0.7104317, 0.7104317)
+texture = ExtResource("12_5iuts")
+metadata/_edit_lock_ = true
+
+[node name="ToyDuck" type="Sprite2D" parent="RoomRoot" unique_id=2108396153]
+visible = false
+position = Vector2(227, 343)
+scale = Vector2(0.40804598, 0.408046)
+texture = ExtResource("13_fppcp")
+metadata/_edit_lock_ = true
+
+[node name="ToyGuitar" type="Sprite2D" parent="RoomRoot" unique_id=821422606]
+visible = false
+position = Vector2(408, 424)
+scale = Vector2(0.66901416, 0.7669906)
+texture = ExtResource("14_jwnxk")
+metadata/_edit_lock_ = true
+
+[node name="ToyTeddyBear" type="Sprite2D" parent="RoomRoot" unique_id=101911333]
+visible = false
+position = Vector2(880, 440)
+scale = Vector2(0.705, 0.705)
+texture = ExtResource("15_u0ac3")
+metadata/_edit_lock_ = true
+
+[node name="ToyBucket" type="Sprite2D" parent="RoomRoot" unique_id=1618461773]
+visible = false
+position = Vector2(1016, 584)
+rotation = 0.6457718
+texture = ExtResource("16_karft")
+metadata/_edit_lock_ = true
+
+[node name="ToyCrown" type="Sprite2D" parent="RoomRoot" unique_id=507583349]
+visible = false
+position = Vector2(714, 277)
+scale = Vector2(0.2499999, 0.2499999)
+texture = ExtResource("17_7smae")
+metadata/_edit_lock_ = true
