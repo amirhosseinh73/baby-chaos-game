@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://pthkend5keex" path="res://assets/toys/toy-teddy-bear.png" id="15_u0ac3"]
 [ext_resource type="Texture2D" uid="uid://bsag0qprom6o7" path="res://assets/toys/toy-bucket.png" id="16_karft"]
 [ext_resource type="Texture2D" uid="uid://bxr2p66yg8nmr" path="res://assets/toys/toy-crown.png" id="17_7smae"]
+[ext_resource type="Texture2D" uid="uid://bhh61mxuhadqa" path="res://assets/baby/baby.png" id="18_7smae"]
 
 [node name="LivingRoom" type="Control" unique_id=773062960]
 layout_mode = 3
@@ -27,6 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="RoomRoot" type="Node2D" parent="." unique_id=830205832]
+metadata/_edit_lock_ = true
 
 [node name="Wall" type="Sprite2D" parent="RoomRoot" unique_id=581646431]
 position = Vector2(576, 244.125)
@@ -47,10 +49,9 @@ texture = ExtResource("3_5iuts")
 metadata/_edit_lock_ = true
 
 [node name="Frame2" type="Sprite2D" parent="RoomRoot" unique_id=1471915570]
-position = Vector2(90.375, 102.21561)
+position = Vector2(296, 102.21561)
 scale = Vector2(0.3073066, 0.3073066)
 texture = ExtResource("4_fppcp")
-metadata/_edit_lock_ = true
 
 [node name="Rug2" type="Sprite2D" parent="RoomRoot" unique_id=112275831]
 position = Vector2(504, 573.00006)
@@ -88,51 +89,149 @@ scale = Vector2(0.26797757, 0.26797754)
 texture = ExtResource("11_i2rj8")
 metadata/_edit_lock_ = true
 
-[node name="FlowerPot1" type="Sprite2D" parent="RoomRoot" unique_id=1945310276]
+[node name="RoomToysSource" type="Node2D" parent="." unique_id=1234448310]
 visible = false
+
+[node name="FlowerPot1" type="Sprite2D" parent="RoomToysSource" unique_id=1945310276]
 position = Vector2(480, 211)
 scale = Vector2(0.19213383, 0.19213384)
 texture = ExtResource("7_s7fgn")
 metadata/_edit_lock_ = true
 
-[node name="ToyScooter" type="Sprite2D" parent="RoomRoot" unique_id=528808462]
-visible = false
+[node name="ToyScooter" type="Sprite2D" parent="RoomToysSource" unique_id=528808462]
 position = Vector2(134, 513)
 scale = Vector2(0.7104317, 0.7104317)
 texture = ExtResource("12_5iuts")
 metadata/_edit_lock_ = true
 
-[node name="ToyDuck" type="Sprite2D" parent="RoomRoot" unique_id=2108396153]
-visible = false
+[node name="ToyDuck" type="Sprite2D" parent="RoomToysSource" unique_id=2108396153]
 position = Vector2(227, 343)
 scale = Vector2(0.40804598, 0.408046)
 texture = ExtResource("13_fppcp")
 metadata/_edit_lock_ = true
 
-[node name="ToyGuitar" type="Sprite2D" parent="RoomRoot" unique_id=821422606]
-visible = false
+[node name="ToyGuitar" type="Sprite2D" parent="RoomToysSource" unique_id=821422606]
 position = Vector2(408, 424)
 scale = Vector2(0.66901416, 0.7669906)
 texture = ExtResource("14_jwnxk")
 metadata/_edit_lock_ = true
 
-[node name="ToyTeddyBear" type="Sprite2D" parent="RoomRoot" unique_id=101911333]
-visible = false
+[node name="ToyTeddyBear" type="Sprite2D" parent="RoomToysSource" unique_id=101911333]
 position = Vector2(880, 440)
 scale = Vector2(0.705, 0.705)
 texture = ExtResource("15_u0ac3")
 metadata/_edit_lock_ = true
 
-[node name="ToyBucket" type="Sprite2D" parent="RoomRoot" unique_id=1618461773]
-visible = false
+[node name="ToyBucket" type="Sprite2D" parent="RoomToysSource" unique_id=1618461773]
 position = Vector2(1016, 584)
 rotation = 0.6457718
 texture = ExtResource("16_karft")
 metadata/_edit_lock_ = true
 
-[node name="ToyCrown" type="Sprite2D" parent="RoomRoot" unique_id=507583349]
-visible = false
+[node name="ToyCrown" type="Sprite2D" parent="RoomToysSource" unique_id=507583349]
 position = Vector2(714, 277)
 scale = Vector2(0.2499999, 0.2499999)
 texture = ExtResource("17_7smae")
+metadata/_edit_lock_ = true
+
+[node name="RoomToysMessPreview" type="Node2D" parent="." unique_id=399233999]
+visible = false
+metadata/_edit_lock_ = true
+
+[node name="FlowerPotMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=1266665451]
+position = Vector2(560.00006, 226.00002)
+rotation = 0.9983283
+scale = Vector2(0.19213383, 0.19213384)
+texture = ExtResource("7_s7fgn")
+metadata/_edit_lock_ = true
+
+[node name="ToyScooterMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=960597693]
+position = Vector2(128, 544)
+rotation = -0.54803336
+scale = Vector2(0.7104317, 0.7104317)
+texture = ExtResource("12_5iuts")
+metadata/_edit_lock_ = true
+
+[node name="ToyDuckMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=1999299894]
+position = Vector2(79.99997, 576)
+rotation = -1.246165
+scale = Vector2(0.40804598, 0.408046)
+texture = ExtResource("13_fppcp")
+metadata/_edit_lock_ = true
+
+[node name="ToyGuitarMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=1740827102]
+position = Vector2(464.00003, 488.00003)
+rotation = 1.3456489
+scale = Vector2(0.66901416, 0.7669906)
+texture = ExtResource("14_jwnxk")
+metadata/_edit_lock_ = true
+
+[node name="ToyTeddyBearMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=1904156105]
+position = Vector2(680, 544)
+rotation = -1.3613569
+scale = Vector2(0.705, 0.705)
+texture = ExtResource("15_u0ac3")
+metadata/_edit_lock_ = true
+
+[node name="ToyBucketMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=1022027019]
+position = Vector2(1080, 584)
+rotation = 1.7261306
+texture = ExtResource("16_karft")
+metadata/_edit_lock_ = true
+
+[node name="ToyCrownMess" type="Sprite2D" parent="RoomToysMessPreview" unique_id=966242556]
+position = Vector2(536, 536)
+rotation = -2.1816616
+scale = Vector2(0.2499999, 0.2499999)
+texture = ExtResource("17_7smae")
+metadata/_edit_lock_ = true
+
+[node name="RoomBabyPreview" type="Node2D" parent="." unique_id=1129106954]
+visible = false
+metadata/_edit_lock_ = true
+
+[node name="BabyDuck" type="Sprite2D" parent="RoomBabyPreview" unique_id=140091225]
+position = Vector2(288, 416)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+flip_h = true
+metadata/_edit_lock_ = true
+
+[node name="BabyScooter" type="Sprite2D" parent="RoomBabyPreview" unique_id=1857575706]
+position = Vector2(240, 472)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+flip_h = true
+metadata/_edit_lock_ = true
+
+[node name="BabyGuitar" type="Sprite2D" parent="RoomBabyPreview" unique_id=274197860]
+position = Vector2(336, 440)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+metadata/_edit_lock_ = true
+
+[node name="BabyFlowerPot" type="Sprite2D" parent="RoomBabyPreview" unique_id=652768381]
+position = Vector2(432, 408)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+metadata/_edit_lock_ = true
+
+[node name="BabyTeddy" type="Sprite2D" parent="RoomBabyPreview" unique_id=1627324890]
+position = Vector2(880, 424)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+flip_h = true
+metadata/_edit_lock_ = true
+
+[node name="BabyBucket" type="Sprite2D" parent="RoomBabyPreview" unique_id=421518777]
+position = Vector2(928, 560)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+metadata/_edit_lock_ = true
+
+[node name="BabyCrown" type="Sprite2D" parent="RoomBabyPreview" unique_id=1743775872]
+position = Vector2(752, 416)
+scale = Vector2(0.061333332, 0.061333332)
+texture = ExtResource("18_7smae")
+flip_h = true
 metadata/_edit_lock_ = true

@@ -184,7 +184,6 @@ func center_game_over_ui():
 
 	UIHelper.center_control(restart_button, Vector2(180, 60), 10)
 
-
 func show_main_menu():
 	game_over = true
 	menu_panel.visible = true
@@ -330,10 +329,20 @@ func request_next_mess():
 
 	is_baby_busy = true
 
+	var baby_node = room_scene_instance.get_node(
+		"RoomBabyPreview/" +
+		mess_data["baby_node"]
+	)
+
+	var mess_node = room_scene_instance.get_node(
+		"RoomToysMessPreview/" +
+		mess_data["mess_node"]
+	)
+
 	baby.perform_mess_at(
-		mess_data["baby_position"],
+		baby_node.position,
 		object_name,
-		mess_data["mess_position"],
+		mess_node.position,
 		mess_data["id"]
 	)
 
@@ -383,55 +392,75 @@ func build_level_room_objects():
 
 		var room_object = room_object_scene.instantiate()
 
-		room_object.position = mess_data["source_position"]
-
-		room_object.rotation_degrees = object_data["source_transform"]["rotation"]
-		room_object.scale = object_data["source_transform"]["scale"]
-
-		room_object.original_position = mess_data["source_position"]
-		room_object.original_rotation = object_data["source_transform"]["rotation"]
-		room_object.original_scale = object_data["source_transform"]["scale"]
-
-		room_scene_instance.add_child(room_object)
-		
 		room_object.setup(
 			mess_data,
 			object_data["texture"]
 		)
-		
+
 		room_object.cleaned.connect(
 			_on_room_object_cleaned
 		)
 
+		var source_sprite = room_scene_instance.get_node(
+			"RoomToysSource/" +
+			mess_data["source_node"]
+		)
+
+		room_object.position = source_sprite.position
+		room_object.rotation = source_sprite.rotation
+		room_object.scale = source_sprite.scale
+		
+		room_object.original_position = source_sprite.position
+		room_object.original_rotation = source_sprite.rotation
+		room_object.original_scale = source_sprite.scale
+
+		room_scene_instance.add_child(room_object)
+
 		room_objects[object_id] = room_object
 
 func throw_room_object_to_mess(object_id, mess_position):
+
 	if not room_objects.has(object_id):
 		return
 
 	var room_object = room_objects[object_id]
-	var object_data = get_object_data_by_name(room_object.object_name)
+
+	var mess_data = null
+
+	for item in current_level["mess_objects"]:
+
+		if item["id"] == object_id:
+			mess_data = item
+			break
+
+	if mess_data == null:
+		return
+
+	var mess_node = room_scene_instance.get_node(
+		"RoomToysMessPreview/" +
+		mess_data["mess_node"]
+	)
 
 	var tween = create_tween()
 
 	tween.parallel().tween_property(
 		room_object,
 		"position",
-		mess_position,
+		mess_node.position,
 		0.25
 	)
 
 	tween.parallel().tween_property(
 		room_object,
-		"rotation_degrees",
-		object_data["mess_transform"]["rotation"],
+		"rotation",
+		mess_node.rotation,
 		0.25
 	)
 
 	tween.parallel().tween_property(
 		room_object,
 		"scale",
-		object_data["mess_transform"]["scale"],
+		mess_node.scale,
 		0.25
 	)
 
@@ -446,9 +475,6 @@ func build_room_scene():
 	room_scene_instance = living_room_scene.instantiate()
 
 	room_layer.add_child(room_scene_instance)
-	
-	print("room pos:", room_scene_instance.position)
-	print("room global:", room_scene_instance.global_position)
 
 func _on_room_object_cleaned(object_id):
 
@@ -459,19 +485,34 @@ func _on_room_object_cleaned(object_id):
 
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(obj, "position", obj.original_position, 0.35)
-	tween.tween_property(obj, "rotation_degrees", obj.original_rotation, 0.35)
-	tween.tween_property(obj, "scale", obj.original_scale, 0.35)
+
+	tween.tween_property(
+		obj,
+		"position",
+		obj.original_position,
+		0.35
+	)
+
+	tween.tween_property(
+		obj,
+		"rotation",
+		obj.original_rotation,
+		0.35
+	)
+
+	tween.tween_property(
+		obj,
+		"scale",
+		obj.original_scale,
+		0.35
+	)
+
 	await tween.finished
 
 	obj.is_mess = false
 
 	score += 1
 	cleaned_mess_count += 1
-	#build_room_scene()
-	obj.position = obj.original_position
-	obj.rotation_degrees = obj.original_rotation
-	obj.scale = obj.original_scale
 
 	update_score_label()
 	update_cleaned_label()
@@ -487,33 +528,3 @@ func is_object_currently_messed(object_name:String) -> bool:
 			return true
 
 	return false
-
-func create_mess_from_object(
-	object_name:String,
-	source_position:Vector2,
-	mess_position:Vector2,
-	baby_position:Vector2
-):
-
-	var room_object = null
-
-	for obj in room_objects.values():
-
-		if obj.object_name == object_name:
-			room_object = obj
-			break
-
-	if room_object == null:
-		request_next_mess()
-		return
-
-	if room_object.is_mess:
-		request_next_mess()
-		return
-
-	baby.move_to_object(
-		room_object,
-		baby_position,
-		source_position,
-		mess_position
-	)

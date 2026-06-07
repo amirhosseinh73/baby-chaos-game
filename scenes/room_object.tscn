@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bbykbnduemlgw"]
 
+[ext_resource type="Texture2D" uid="uid://ywmxpobnd6fu" path="res://assets/rooms/living-room/wall.png" id="1_1bc1b"]
 [ext_resource type="Script" uid="uid://cch3gaeunwj1i" path="res://scripts/room_object.gd" id="1_3r1om"]
 
 [node name="RoomObject" type="Node2D" unique_id=2000789884]
 script = ExtResource("1_3r1om")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1134506368]
+texture = ExtResource("1_1bc1b")
